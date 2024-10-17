@@ -1,25 +1,22 @@
 package com.example.sodoku.models;
 
 import com.example.sodoku.controller.GameController;
+import com.example.sodoku.interfaces.IGame;
 import javafx.scene.control.TextField;
-
 import java.util.Random;
-import java.util.Arrays;
 
-public class SudokuGame {
+
+public class SudokuGame implements IGame {
     private final int[][] matrix;
     private int attempts;
-    private final int help;
-    private final boolean gameFinished;
 
     public SudokuGame(){
         this.matrix = new int[6][6];
         this.attempts = 3;
-        this.help = 3;
-        this.gameFinished = false;
         initializeMatrix();
     }
 
+    @Override
     public void initializeMatrix() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
@@ -28,6 +25,7 @@ public class SudokuGame {
         }
     }
 
+    @Override
     public boolean verifyValue(int value, int row, int col) {
         for (int j = 0; j < 6; j++) {
             if (matrix[row][j] == value) {
@@ -52,6 +50,7 @@ public class SudokuGame {
         return true;
     }
 
+    @Override
     public void addHelpNumbers(int count, GameController gameController) {
         if (count == 1 && attempts > 0) {
             Random randomForHelp = new Random();
@@ -98,6 +97,7 @@ public class SudokuGame {
         }
     }
 
+    @Override
     public boolean gameFinished(){
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
@@ -110,16 +110,12 @@ public class SudokuGame {
     }
 
     //Gets attributes
+    @Override
     public int[][] getMatriz() {
         return matrix;
     }
+    @Override
     public int getAttempts() {
         return attempts;
-    }
-    public int getHelp() {
-        return help;
-    }
-    public boolean isGameFinished() {
-        return gameFinished;
     }
 }

@@ -5,7 +5,6 @@ import com.example.sodoku.utils.CustomAlert;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -76,11 +75,10 @@ public class GameController {
                 }
             } else {
                 matrix[row][col] = 0;
-                String original = textField.getStyle();;
-                int startIndex = 51;
-                int endIndex = 81;
+                String original = textField.getStyle();
+                int startIndex = 53;
+                int endIndex = 83;
                 String newStyle = original.substring(0, startIndex) + original.substring(endIndex);
-
                 textField.setStyle(newStyle);
             }
         });
