@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class SudokuGame {
     private final int[][] matrix;
-    private final int attempts;
+    private int attempts;
     private final int help;
     private final boolean gameFinished;
 
@@ -53,7 +53,7 @@ public class SudokuGame {
     }
 
     public void addHelpNumbers(int count, GameController gameController) {
-        if (count == 1) {
+        if (count == 1 && attempts > 0) {
             Random randomForHelp = new Random();
             int placed = 0;
 
@@ -68,6 +68,7 @@ public class SudokuGame {
                         textField.setText(String.valueOf(valueForHelp));
                     }
                     placed++;
+                    attempts--;
                 }
             }
         } else {

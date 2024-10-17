@@ -2,6 +2,7 @@ package com.example.sodoku.controller;
 
 import com.example.sodoku.models.SudokuGame;
 import com.example.sodoku.utils.CustomAlert;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -9,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 
 public class GameController {
 
@@ -55,7 +57,7 @@ public class GameController {
                 int value = Integer.parseInt(newValue);
                 if (sudoku.verifyValue(value, row, col)) {
                     matrix[row][col] = value;
-                    String newStyle = "-fx-background-color: #d3ffc8;";
+                    String newStyle = "-fx-background-color: #c7ffb8;";
                     textField.setStyle(textField.getStyle() + newStyle);
 
                     if (sudoku.gameFinished()) {
@@ -109,7 +111,28 @@ public class GameController {
     }
 
     public void help (){
+        int counter = 0;
+        OnActionButtonHelp.setOnMousePressed(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), OnActionButtonHelp);
+            scaleTransition.setFromX(1.0);
+            scaleTransition.setFromY(1.0);
+            scaleTransition.setToX(0.9); // Escala el botón al 90%
+            scaleTransition.setToY(0.9);
+            scaleTransition.play();
+        });
+        OnActionButtonHelp.setOnMouseReleased(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), OnActionButtonHelp);
+            scaleTransition.setFromX(0.9);
+            scaleTransition.setFromY(0.9);
+            scaleTransition.setToX(1.0); // Vuelve al tamaño original
+            scaleTransition.setToY(1.0);
+            scaleTransition.play();
+        });
+
         sudoku.addHelpNumbers(1, this);
+        if(sudoku.getAttempts() == counter) {
+            OnActionButtonHelp.setDisable(true);
+        }
     }
 
     public void instructions() {
@@ -133,6 +156,10 @@ public class GameController {
                 1. Escanea filas y columnas: Revisa si solo queda un número posible para una fila, columna o bloque.
                 2. Bloques de 2x3 o 3x2: Asegúrate de observar las limitaciones en los bloques. Esta es una clave importante para resolver el puzzle.
                 3. Usa eliminación: Si en una fila, columna o bloque ya hay varios números, elimina esos números de las posibles opciones para las celdas vacías.
+                
+                Nota:
+                
+                Tienes 3 ayudas!!
                 
                 Suerte! La vas a necesitar!
                 """);

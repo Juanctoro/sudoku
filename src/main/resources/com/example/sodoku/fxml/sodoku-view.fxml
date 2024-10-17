@@ -2,30 +2,47 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="840.0" style="-fx-background-color: dcfcff;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sodoku.controller.GameController">
+<VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="708.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sodoku.controller.GameController">
    <children>
-      <Button fx:id="instructionsButton" mnemonicParsing="false" onAction="#instructions" prefHeight="15.0" prefWidth="26.0" style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-color: black; -fx-border-radius: 50;" text="?">
-         <VBox.margin>
-            <Insets right="790.0" top="10.0" />
-         </VBox.margin>
-      </Button>
-      <HBox alignment="CENTER" fillHeight="false" prefHeight="85.0" prefWidth="840.0">
+      <HBox alignment="CENTER" prefHeight="46.0" prefWidth="386.0">
          <children>
-            <Button fx:id="OnActionButtonPlay" mnemonicParsing="false" onAction="#playGame" prefHeight="50.0" prefWidth="110.0" style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-color: black; -fx-border-radius: 50;" text="JUGAR">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="66.0" prefWidth="233.0" text="SUDOKU" textFill="#0080ff">
+               <font>
+                  <Font name="System Bold Italic" size="58.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="26.0" />
+               </HBox.margin>
+            </Label>
+            <Button fx:id="instructionsButton" mnemonicParsing="false" onAction="#instructions" prefHeight="0.0" prefWidth="26.0" style="-fx-background-color: black; -fx-background-radius: 50; -fx-border-color: black; -fx-border-radius: 50;" text="?" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" fillHeight="false" prefHeight="63.0" prefWidth="840.0">
+         <children>
+            <Button fx:id="OnActionButtonPlay" mnemonicParsing="false" onAction="#playGame" prefHeight="50.0" prefWidth="110.0" style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-color: black; -fx-border-radius: 50; -fx-border-width: 2;" text="JUGAR">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="OnActionButtonHelp" disable="true" mnemonicParsing="false" onAction="#help" prefHeight="50.0" prefWidth="110.0" style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-color: black; -fx-border-radius: 50;" text="AYUDA">
+            <Button fx:id="OnActionButtonHelp" disable="true" mnemonicParsing="false" onAction="#help" prefHeight="50.0" prefWidth="110.0" style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-color: black; -fx-border-radius: 50; -fx-border-width: 2;" text="AYUDA">
                <HBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="10.0" right="10.0" />
                </HBox.margin>
             </Button>
          </children>
@@ -48,47 +65,154 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-             <TextField fx:id="textField00" prefHeight="118.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 3 0 0 3;" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-             <TextField fx:id="textField01" prefHeight="128.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 3 0 0 0;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-             <TextField fx:id="textField02" prefHeight="162.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 3 3 0 0;" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-             <TextField fx:id="textField03" prefHeight="192.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 3 0 0 0;" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-             <TextField fx:id="textField04" prefHeight="106.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 3 0 0 0;" GridPane.columnIndex="4" GridPane.rowIndex="0" />
-             <TextField fx:id="textField05" prefHeight="137.0" prefWidth="103.0" style="-fx-border-color: green; -fx-border-width: 3 3 0 0;" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+             <TextField fx:id="textField00" alignment="CENTER" prefHeight="118.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 3 0 0 3;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                   <font>
+                      <Font name="System Bold" size="30.0" />
+                   </font></TextField>
+             <TextField fx:id="textField01" alignment="CENTER" prefHeight="128.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 3 0 0 0;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                   <font>
+                      <Font name="System Bold" size="30.0" />
+                   </font></TextField>
+             <TextField fx:id="textField02" alignment="CENTER" prefHeight="162.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 3 3 0 0;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField03" alignment="CENTER" prefHeight="192.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 3 0 0 0;" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField04" alignment="CENTER" prefHeight="106.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 3 0 0 0;" GridPane.columnIndex="4" GridPane.rowIndex="0">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField05" alignment="CENTER" prefHeight="137.0" prefWidth="103.0" style="-fx-border-color: #757575; -fx-border-width: 3 3 0 0;" GridPane.columnIndex="5" GridPane.rowIndex="0">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
 
-             <TextField fx:id="textField10" prefHeight="98.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 3;" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-             <TextField fx:id="textField11" prefHeight="94.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-             <TextField fx:id="textField12" prefHeight="93.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 1 3 3 1;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-             <TextField fx:id="textField13" prefHeight="101.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-             <TextField fx:id="textField14" prefHeight="98.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-             <TextField fx:id="textField15" prefHeight="102.0" prefWidth="103.0" style="-fx-border-color: green; -fx-border-width: 1 3 3 1;" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+             <TextField fx:id="textField10" alignment="CENTER" prefHeight="98.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 3;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField11" alignment="CENTER" prefHeight="94.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField12" alignment="CENTER" prefHeight="93.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 1 3 3 1;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField13" alignment="CENTER" prefHeight="101.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField14" alignment="CENTER" prefHeight="98.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField15" alignment="CENTER" prefHeight="102.0" prefWidth="103.0" style="-fx-border-color: #757575; -fx-border-width: 1 3 3 1;" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
 
-             <TextField fx:id="textField20" prefHeight="98.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 0 3;" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-             <TextField fx:id="textField21" prefHeight="87.0" prefWidth="104.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-             <TextField fx:id="textField22" prefHeight="104.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 3 0 0;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-             <TextField fx:id="textField23" prefHeight="129.0" prefWidth="104.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-             <TextField fx:id="textField24" prefHeight="84.0" prefWidth="104.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-             <TextField fx:id="textField25" prefHeight="102.0" prefWidth="103.0" style="-fx-border-color: green; -fx-border-width: 0 3 0 0;" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+             <TextField fx:id="textField20" alignment="CENTER" prefHeight="98.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 0 3;" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField21" alignment="CENTER" prefHeight="87.0" prefWidth="104.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField22" alignment="CENTER" prefHeight="104.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 3 0 0;" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField23" alignment="CENTER" prefHeight="129.0" prefWidth="104.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField24" alignment="CENTER" prefHeight="84.0" prefWidth="104.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField25" alignment="CENTER" prefHeight="102.0" prefWidth="103.0" style="-fx-border-color: #757575; -fx-border-width: 0 3 0 0;" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
 
-             <TextField fx:id="textField30" prefHeight="106.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 3;" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-             <TextField fx:id="textField31" prefHeight="133.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-             <TextField fx:id="textField32" prefHeight="122.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 3 3 0;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-             <TextField fx:id="textField33" prefHeight="114.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-             <TextField fx:id="textField34" prefHeight="124.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-             <TextField fx:id="textField35" prefHeight="132.0" prefWidth="103.0" style="-fx-border-color: green; -fx-border-width: 0 3 3 0;" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+             <TextField fx:id="textField30" alignment="CENTER" prefHeight="106.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 3;" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField31" alignment="CENTER" prefHeight="133.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField32" alignment="CENTER" prefHeight="122.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 3 3 0;" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField33" alignment="CENTER" prefHeight="114.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField34" alignment="CENTER" prefHeight="124.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField35" alignment="CENTER" prefHeight="132.0" prefWidth="103.0" style="-fx-border-color: #757575; -fx-border-width: 0 3 3 0;" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField40" alignment="CENTER" prefHeight="140.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 0 3;" GridPane.rowIndex="4">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField41" alignment="CENTER" prefHeight="114.0" prefWidth="104.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField42" alignment="CENTER" prefHeight="166.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 3 0 0;" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField43" alignment="CENTER" prefHeight="120.0" prefWidth="104.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField44" alignment="CENTER" prefHeight="128.0" prefWidth="104.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField45" alignment="CENTER" prefHeight="107.0" prefWidth="103.0" style="-fx-border-color: #757575; -fx-border-width: 0 3 0 0;" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
 
-             <TextField fx:id="textField40" prefHeight="140.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 0 3;" GridPane.rowIndex="4" />
-             <TextField fx:id="textField41" prefHeight="114.0" prefWidth="104.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-             <TextField fx:id="textField42" prefHeight="166.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 3 0 0;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-             <TextField fx:id="textField43" prefHeight="120.0" prefWidth="104.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-             <TextField fx:id="textField44" prefHeight="128.0" prefWidth="104.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-             <TextField fx:id="textField45" prefHeight="107.0" prefWidth="103.0" style="-fx-border-color: green; -fx-border-width: 0 3 0 0;" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-
-             <TextField fx:id="textField50" prefHeight="118.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 3;" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-             <TextField fx:id="textField51" prefHeight="97.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-             <TextField fx:id="textField52" prefHeight="134.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 3 3 0;" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-             <TextField fx:id="textField53" prefHeight="144.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-             <TextField fx:id="textField54" prefHeight="114.0" prefWidth="104.0" style="-fx-border-color: green; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-             <TextField fx:id="textField55" prefHeight="189.0" prefWidth="103.0" style="-fx-border-color: green; -fx-border-width: 0 3 3 0;" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+             <TextField fx:id="textField50" alignment="CENTER" prefHeight="118.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 3;" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField51" alignment="CENTER" prefHeight="97.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField52" alignment="CENTER" prefHeight="134.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 3 3 0;" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField53" alignment="CENTER" prefHeight="144.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField54" alignment="CENTER" prefHeight="114.0" prefWidth="104.0" style="-fx-border-color: #757575; -fx-border-width: 0 0 3 0;" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
+             <TextField fx:id="textField55" alignment="CENTER" prefHeight="189.0" prefWidth="103.0" style="-fx-border-color: #757575; -fx-border-width: 0 3 3 0;" GridPane.columnIndex="5" GridPane.rowIndex="5">
+                 <font>
+                     <Font name="System Bold" size="30.0" />
+                 </font></TextField>
          </children>
       </GridPane>
    </children>
