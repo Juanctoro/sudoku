@@ -26,7 +26,6 @@ public class SudokuGame {
                 matrix[i][j] = 0;
             }
         }
-        System.out.println(Arrays.deepToString(matrix));
     }
 
     public boolean verifyValue(int value, int row, int col) {
@@ -54,23 +53,46 @@ public class SudokuGame {
     }
 
     public void addHelpNumbers(int count, GameController gameController) {
-        Random random = new Random();
-        int placed = 0;
+        if (count == 1) {
+            Random randomForHelp = new Random();
+            int placed = 0;
 
-        while (placed < count) {
-            int row = random.nextInt(6);
-            int col = random.nextInt(6);
-            int value = random.nextInt(1, 7);
+            while (placed < count) {
+                int row = randomForHelp.nextInt(6);
+                int col = randomForHelp.nextInt(6);
+                int valueForHelp = randomForHelp.nextInt(1, 7);
 
-            if (matrix[row][col] == 0 && verifyValue(value, row, col)) {
-                matrix[row][col] = value;
-
-                TextField textField = (TextField) gameController.getNodeByRowColumnIndex(row, col);
-                if (textField != null) {
-                    textField.setText(String.valueOf(value));
-                    gameController.lockTextField(textField);
+                if (matrix[row][col] == 0 && verifyValue(valueForHelp, row, col)) {
+                    TextField textField = (TextField) gameController.getNodeByRowColumnIndex(row, col);
+                    if (textField != null) {
+                        textField.setText(String.valueOf(valueForHelp));
+                    }
+                    placed++;
                 }
-                placed++;
+            }
+        } else {
+            Random random = new Random();
+            for (int blockRow = 0; blockRow < 3; blockRow++) {
+                for (int blockCol = 0; blockCol < 2; blockCol++) {
+                    int placed = 0;
+
+                    while (placed < 2) {
+                        int row = blockRow * 2 + random.nextInt(2);
+                        int col = blockCol * 3 + random.nextInt(3);
+                        int value = random.nextInt(1, 7);
+
+                        if (matrix[row][col] == 0 && verifyValue(value, row, col)) {
+                            matrix[row][col] = value;
+
+                            TextField textField = (TextField) gameController.getNodeByRowColumnIndex(row, col);
+                            if (textField != null) {
+                                textField.setText(String.valueOf(value));
+                                gameController.lockTextField(textField);
+                            }
+                            placed++;
+                        }
+                    }
+                }
             }
         }
     }

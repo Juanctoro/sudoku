@@ -4,6 +4,7 @@ import com.example.sodoku.models.SudokuGame;
 import com.example.sodoku.utils.CustomAlert;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -19,10 +20,14 @@ public class GameController {
     private GridPane sudokuGrid;
 
     @FXML
-    private Button OnActionButtonPlay;
+    private Button OnActionButtonPlay, OnActionButtonHelp;
 
     @FXML
     public void playGame() {
+        if(!customAlert.makeAlertConfirmation()) {
+            return;
+        }
+        OnActionButtonHelp.setDisable(false);
         OnActionButtonPlay.setDisable(true);
         this.sudoku = new SudokuGame();
         sudoku.addHelpNumbers(12, this);
@@ -47,30 +52,34 @@ public class GameController {
     private void addTextFieldListener(TextField textField, SudokuGame sudoku, int row, int col) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
-                try {
-                    int value = Integer.parseInt(newValue);
-                    if (sudoku.verifyValue(value, row, col)) {
-                        matrix[row][col] = value;
-                        textField.setStyle("-fx-background-color: #d3ffc8 ;");
-                        if (sudoku.gameFinished()){
-                            customAlert.makeAlertInformation("Felicidades", "Lograste completar el juego!!");
-                            for (Node node : sudokuGrid.getChildren()) {
-                                if (node instanceof TextField) {
-                                    node.setDisable(true);
-                                }
+                int value = Integer.parseInt(newValue);
+                if (sudoku.verifyValue(value, row, col)) {
+                    matrix[row][col] = value;
+                    String newStyle = "-fx-background-color: #d3ffc8;";
+                    textField.setStyle(textField.getStyle() + newStyle);
+
+                    if (sudoku.gameFinished()) {
+                        customAlert.makeAlertInformation("Felicidades", "Lograste completar el juego!!");
+                        for (Node node : sudokuGrid.getChildren()) {
+                            if (node instanceof TextField) {
+                                node.setDisable(true);
                             }
-                            OnActionButtonPlay.setDisable(false);
                         }
-                    } else if(!sudoku.verifyValue(value, row, col)) {
-                        textField.setStyle("-fx-background-color: #ff9898 ;");
-                        customAlert.makeAlertError("Error", "Numero no valido");
+                        OnActionButtonPlay.setDisable(false);
                     }
-                } catch (NumberFormatException e) {
-                    matrix[row][col] = 0;
-                    textField.setText("");
+                } else {
+                    String newStyle = "-fx-background-color: #ff9898;";
+                    textField.setStyle(textField.getStyle() + newStyle);
+                    customAlert.makeAlertError("Error", "Número no válido");
                 }
             } else {
                 matrix[row][col] = 0;
+                String original = textField.getStyle();;
+                int startIndex = 51;
+                int endIndex = 81;
+                String newStyle = original.substring(0, startIndex) + original.substring(endIndex);
+
+                textField.setStyle(newStyle);
             }
         });
     }
@@ -95,10 +104,37 @@ public class GameController {
 
     public void lockTextField(TextField textField) {
         textField.setEditable(false);
-        textField.setStyle("-fx-background-color: lightgray;");
+        String additionalStyle = "-fx-background-color: lightgray;";
+        textField.setStyle(textField.getStyle() + additionalStyle);
     }
 
     public void help (){
         sudoku.addHelpNumbers(1, this);
+    }
+
+    public void instructions() {
+        customAlert.makeAlertInformation("Instrucciones", """
+                Objetivo
+                
+                El objetivo es rellenar la cuadrícula 6x6 con números del 1 al 6, asegurándote de que no se repitan en:
+                
+                1. Filas: Cada número del 1 al 6 debe aparecer una vez por fila.
+                2. Columnas: Cada número del 1 al 6 debe aparecer una vez por columna.
+                3. Bloques: La cuadrícula está dividida en 6 bloques de 2x3 o 3x2 (según el diseño), y cada número del 1 al 6 debe aparecer una vez en cada bloque.
+                
+                Reglas
+                
+                1. No puedes repetir números: Los números no pueden repetirse en ninguna fila, columna o bloque de 2x3/3x2.
+                2. Usa las pistas dadas: Algunas celdas ya tienen números preestablecidos. Estas pistas te ayudarán a deducir el resto de los números.
+                3. Elige cuidadosamente: Usa la lógica y la deducción para colocar los números en las celdas vacías. No debes adivinar.
+                
+                Consejos
+                
+                1. Escanea filas y columnas: Revisa si solo queda un número posible para una fila, columna o bloque.
+                2. Bloques de 2x3 o 3x2: Asegúrate de observar las limitaciones en los bloques. Esta es una clave importante para resolver el puzzle.
+                3. Usa eliminación: Si en una fila, columna o bloque ya hay varios números, elimina esos números de las posibles opciones para las celdas vacías.
+                
+                Suerte! La vas a necesitar!
+                """);
     }
 }
