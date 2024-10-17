@@ -5,17 +5,28 @@ import com.example.sodoku.interfaces.IGame;
 import javafx.scene.control.TextField;
 import java.util.Random;
 
-
+/**
+ * Represents a 6x6 Sudoku game implementing the IGame interface.
+ * This class manages the Sudoku game logic, including verifying values,
+ * adding help numbers, and checking if the game is finished.
+ * @author Juan Toro
+ */
 public class SudokuGame implements IGame {
     private final int[][] matrix;
-    private int attempts;
+    private int aids;
 
+    /**
+     * Initializes the Sudoku game with an empty 6x6 matrix and sets the number of aids (help numbers) to 3.
+     */
     public SudokuGame(){
         this.matrix = new int[6][6];
-        this.attempts = 3;
+        this.aids = 3;
         initializeMatrix();
     }
 
+    /**
+     * Initializes the Sudoku matrix, setting all values to 0, indicating an empty board.
+     */
     @Override
     public void initializeMatrix() {
         for (int i = 0; i < 6; i++) {
@@ -25,6 +36,15 @@ public class SudokuGame implements IGame {
         }
     }
 
+    /**
+     * Verifies whether the given value can be placed at the specified row and column
+     * in the Sudoku board without violating the rules of Sudoku (no duplicates in the same row, column, or block).
+     *
+     * @param value The value to be placed (between 1 and 6).
+     * @param row The row index where the value is to be placed (0-based).
+     * @param col The column index where the value is to be placed (0-based).
+     * @return true if the value can be placed in the specified location, false otherwise.
+     */
     @Override
     public boolean verifyValue(int value, int row, int col) {
         for (int j = 0; j < 6; j++) {
@@ -50,9 +70,16 @@ public class SudokuGame implements IGame {
         return true;
     }
 
+    /**
+     * Adds help numbers to the Sudoku board. If the count is 1 and there are aids available,
+     * it adds a single random valid number. Otherwise, it adds random valid numbers in each block.
+     *
+     * @param count The number of help numbers to be added.
+     * @param gameController The controller responsible for managing the game logic and UI updates.
+     */
     @Override
     public void addHelpNumbers(int count, GameController gameController) {
-        if (count == 1 && attempts > 0) {
+        if (count == 1 && aids > 0) {
             Random randomForHelp = new Random();
             int placed = 0;
 
@@ -67,7 +94,7 @@ public class SudokuGame implements IGame {
                         textField.setText(String.valueOf(valueForHelp));
                     }
                     placed++;
-                    attempts--;
+                    aids--;
                 }
             }
         } else {
@@ -97,6 +124,11 @@ public class SudokuGame implements IGame {
         }
     }
 
+    /**
+     * Checks if the Sudoku game has been completed, i.e., if all cells are filled.
+     *
+     * @return true if all cells are filled and the game is finished, false otherwise.
+     */
     @Override
     public boolean gameFinished(){
         for (int i = 0; i < 6; i++) {
@@ -109,13 +141,23 @@ public class SudokuGame implements IGame {
         return true;
     }
 
-    //Gets attributes
+    /**
+     * Returns the current state of the Sudoku board as a 2D array.
+     *
+     * @return The 6x6 matrix representing the current state of the game.
+     */
     @Override
-    public int[][] getMatriz() {
+    public int[][] getMatrix() {
         return matrix;
     }
+
+    /**
+     * Returns the number of remaining aids (help numbers) available to the player.
+     *
+     * @return The number of aids available.
+     */
     @Override
-    public int getAttempts() {
-        return attempts;
+    public int getAids() {
+        return aids;
     }
 }

@@ -11,6 +11,11 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
+/**
+ * The GameController class manages the logic and interaction between the game and the user interface (UI)
+ * for the Sudoku game. It controls the game state, updates the board, and handles user input.
+ * @author Juan Toro
+ */
 public class GameController {
 
     private int[][] matrix;
@@ -23,6 +28,12 @@ public class GameController {
     @FXML
     private Button OnActionButtonPlay, OnActionButtonHelp;
 
+
+    /**
+     * Starts a new game by initializing the Sudoku board, disabling/enabling relevant buttons,
+     * and populating the board with helper numbers.
+     * It also sets up listeners on each cell for user input.
+     */
     @FXML
     public void playGame() {
         if(!customAlert.makeAlertConfirmation()) {
@@ -32,8 +43,9 @@ public class GameController {
         OnActionButtonPlay.setDisable(true);
         this.sudoku = new SudokuGame();
         sudoku.addHelpNumbers(12, this);
-        this.matrix = sudoku.getMatriz();
+        this.matrix = sudoku.getMatrix();
 
+        // Sets up the game board with text fields and value listeners.
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
                 TextField textField = (TextField) getNodeByRowColumnIndex(row, col);
@@ -50,6 +62,15 @@ public class GameController {
         }
     }
 
+    /**
+     * Adds a listener to the TextField to monitor user input.
+     * It updates the matrix, validates user input, and changes the background color based on validity.
+     *
+     * @param textField The TextField to which the listener is added.
+     * @param sudoku The Sudoku game logic object.
+     * @param row The row index of the cell.
+     * @param col The column index of the cell.
+     */
     private void addTextFieldListener(TextField textField, SudokuGame sudoku, int row, int col) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
@@ -84,6 +105,13 @@ public class GameController {
         });
     }
 
+    /**
+     * Retrieves the node (TextField) from the GridPane based on the given row and column indices.
+     *
+     * @param row The row index.
+     * @param column The column index.
+     * @return The Node at the specified row and column.
+     */
     public Node getNodeByRowColumnIndex(int row, int column) {
         for (Node node : sudokuGrid.getChildren()) {
             Integer rowIndex = GridPane.getRowIndex(node);
@@ -102,11 +130,21 @@ public class GameController {
         return null;
     }
 
+    /**
+     * Locks the given TextField, making it non-editable and changing its background color to light gray.
+     *
+     * @param textField The TextField to be locked.
+     */
     public void lockTextField(TextField textField) {
         textField.setEditable(false);
         String additionalStyle = "-fx-background-color: lightgray;";
         textField.setStyle(textField.getStyle() + additionalStyle);
     }
+
+    /**
+     * Handles the help button logic, allowing the user to request a single help number.
+     * Disables the button when no more help is available.
+     */
 
     public void help (){
         int counter = 0;
@@ -128,11 +166,14 @@ public class GameController {
         });
 
         sudoku.addHelpNumbers(1, this);
-        if(sudoku.getAttempts() == counter) {
+        if(sudoku.getAids() == counter) {
             OnActionButtonHelp.setDisable(true);
         }
     }
 
+    /**
+     * Displays the game instructions using an alert box.
+     */
     public void instructions() {
         customAlert.makeAlertInformation("Instrucciones", """
                 Objetivo
