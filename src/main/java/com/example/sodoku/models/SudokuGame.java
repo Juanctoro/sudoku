@@ -3,6 +3,7 @@ package com.example.sodoku.models;
 import com.example.sodoku.controller.GameController;
 import com.example.sodoku.interfaces.IGame;
 import javafx.scene.control.TextField;
+
 import java.util.Random;
 
 /**
@@ -13,27 +14,15 @@ import java.util.Random;
  */
 public class SudokuGame implements IGame {
     private final int[][] matrix;
-    private int aids;
+    private final int[][] boardFull;
 
     /**
      * Initializes the Sudoku game with an empty 6x6 matrix and sets the number of aids (help numbers) to 3.
      */
     public SudokuGame(){
-        this.matrix = new int[6][6];
-        this.aids = 3;
-        initializeMatrix();
-    }
-
-    /**
-     * Initializes the Sudoku matrix, setting all values to 0, indicating an empty board.
-     */
-    @Override
-    public void initializeMatrix() {
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                matrix[i][j] = 0;
-            }
-        }
+        BoardModel boardModel = new BoardModel();
+        this.matrix = boardModel.getSudoku();
+        this.boardFull = boardModel.getBoardFull();
     }
 
     /**
@@ -45,15 +34,9 @@ public class SudokuGame implements IGame {
      * @param col The column index where the value is to be placed (0-based).
      * @return true if the value can be placed in the specified location, false otherwise.
      */
-    @Override
     public boolean verifyValue(int value, int row, int col) {
         for (int j = 0; j < 6; j++) {
-            if (matrix[row][j] == value) {
-                return false;
-            }
-        }
-        for (int i = 0; i < 6; i++) {
-            if (matrix[i][col] == value) {
+            if (matrix[row][j] == value || matrix[j][col] == value) {
                 return false;
             }
         }
@@ -71,55 +54,27 @@ public class SudokuGame implements IGame {
     }
 
     /**
-     * Adds help numbers to the Sudoku board. If the count is 1 and there are aids available,
-     * it adds a single random valid number. Otherwise, it adds random valid numbers in each block.
+     * Adds help numbers to the Sudoku board.
+     * Otherwise, it adds random valid numbers in each block.
      *
-     * @param count The number of help numbers to be added.
      * @param gameController The controller responsible for managing the game logic and UI updates.
      */
-    @Override
-    public void addHelpNumbers(int count, GameController gameController) {
-        if (count == 1 && aids > 0) {
-            Random randomForHelp = new Random();
-            int placed = 0;
+    public void addHelpNumbers( GameController gameController) {
+        Random randomForHelp = new Random();
+        boolean num = false;
 
-            while (placed < count) {
-                int row = randomForHelp.nextInt(6);
-                int col = randomForHelp.nextInt(6);
-                int valueForHelp = randomForHelp.nextInt(1, 7);
+        while (!num) {
+            int row = randomForHelp.nextInt(6);
+            int col = randomForHelp.nextInt(6);
+            int valueForHelp = this.boardFull[row][col];
 
-                if (matrix[row][col] == 0 && verifyValue(valueForHelp, row, col)) {
-                    TextField textField = (TextField) gameController.getNodeByRowColumnIndex(row, col);
-                    if (textField != null) {
-                        textField.setText(String.valueOf(valueForHelp));
-                    }
-                    placed++;
-                    aids--;
+            if (matrix[row][col] == 0) {
+                TextField textField = (TextField) gameController.getNodeByRowColumnIndex(row, col);
+                if (textField != null) {
+                    textField.setText(String.valueOf(valueForHelp));
+                    textField.setEditable(true);
                 }
-            }
-        } else {
-            Random random = new Random();
-            for (int blockRow = 0; blockRow < 3; blockRow++) {
-                for (int blockCol = 0; blockCol < 2; blockCol++) {
-                    int placed = 0;
-
-                    while (placed < 2) {
-                        int row = blockRow * 2 + random.nextInt(2);
-                        int col = blockCol * 3 + random.nextInt(3);
-                        int value = random.nextInt(1, 7);
-
-                        if (matrix[row][col] == 0 && verifyValue(value, row, col)) {
-                            matrix[row][col] = value;
-
-                            TextField textField = (TextField) gameController.getNodeByRowColumnIndex(row, col);
-                            if (textField != null) {
-                                textField.setText(String.valueOf(value));
-                                gameController.lockTextField(textField);
-                            }
-                            placed++;
-                        }
-                    }
-                }
+                num = true;
             }
         }
     }
@@ -129,7 +84,6 @@ public class SudokuGame implements IGame {
      *
      * @return true if all cells are filled and the game is finished, false otherwise.
      */
-    @Override
     public boolean gameFinished(){
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
@@ -142,22 +96,11 @@ public class SudokuGame implements IGame {
     }
 
     /**
-     * Returns the current state of the Sudoku board as a 2D array.
+     * Returns the sudoku matrix.
      *
-     * @return The 6x6 matrix representing the current state of the game.
+     * @return Returns the sudoku matrix.
      */
-    @Override
     public int[][] getMatrix() {
         return matrix;
-    }
-
-    /**
-     * Returns the number of remaining aids (help numbers) available to the player.
-     *
-     * @return The number of aids available.
-     */
-    @Override
-    public int getAids() {
-        return aids;
     }
 }

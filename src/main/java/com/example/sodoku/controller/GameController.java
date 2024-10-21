@@ -3,6 +3,7 @@ package com.example.sodoku.controller;
 import com.example.sodoku.models.SudokuGame;
 import com.example.sodoku.utils.CustomAlert;
 import javafx.animation.ScaleTransition;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -10,6 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The GameController class manages the logic and interaction between the game and the user interface (UI)
@@ -21,6 +25,7 @@ public class GameController {
     private int[][] matrix;
     private SudokuGame sudoku;
     private final CustomAlert customAlert = new CustomAlert();
+    private final Map<TextField, ChangeListener<String>> listenersMap = new HashMap<>();
 
     @FXML
     private GridPane sudokuGrid;
@@ -39,17 +44,60 @@ public class GameController {
         if(!customAlert.makeAlertConfirmation()) {
             return;
         }
+        OnActionButtonPlay.setText("NUEVO JUEGO");
+        game();
+        sudokuGrid.getChildren();
         OnActionButtonHelp.setDisable(false);
-        OnActionButtonPlay.setDisable(true);
-        this.sudoku = new SudokuGame();
-        sudoku.addHelpNumbers(12, this);
-        this.matrix = sudoku.getMatrix();
+    }
 
-        // Sets up the game board with text fields and value listeners.
+    /**
+     * Initializes the game by resetting the Sudoku grid, creating a new SudokuGame instance,
+     * and setting up the initial values in the grid.
+     */
+    public void game() {
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
                 TextField textField = (TextField) getNodeByRowColumnIndex(row, col);
-                textField.setText(matrix[row][col] != 0 ? String.valueOf(matrix[row][col]) : "");
+                textField.setText("");
+                textField.setDisable(false);
+                textField.setEditable(true);
+                String original = textField.getStyle();
+
+                if (original.length() < 53){
+                    textField.setStyle("");
+                } else {
+                    int startIndex = 53;
+                    int endIndex = original.length();
+
+                    String newStyle = original.substring(0, startIndex) + original.substring(endIndex);
+                    textField.setStyle(newStyle);
+                }
+            }
+        }
+        this.sudoku = null;// Crea un nuevo juego
+        this.matrix = null; // Obtén la nueva matriz
+
+        this.sudoku = new SudokuGame(); // Crea un nuevo juego
+        this.matrix = sudoku.getMatrix(); // Obtén la nueva matriz
+        removeAllListeners();
+        firstValues();
+    }
+
+    /**
+     * Initializes the first values of the Sudoku grid based on the generated matrix.
+     * It populates the grid with preset numbers and adds input validation listeners to each cell.
+     */
+    private void firstValues(){
+        for (int row = 0; row < 6; row++) {
+            for (int col = 0; col < 6; col++) {
+                TextField textField = (TextField) getNodeByRowColumnIndex(row, col);
+                if (this.matrix[row][col] != 0) {
+                    textField.setText(String.valueOf(this.matrix[row][col]));
+                    blockTextField(textField);
+                } else {
+                    textField.setText("");
+                    textField.setDisable(false);
+                }
                 textField.setTextFormatter(new TextFormatter<String>(change -> {
                     String newText = change.getControlNewText();
                     if (newText.matches("[1-6]?")) {
@@ -57,7 +105,7 @@ public class GameController {
                     }
                     return null;
                 }));
-                addTextFieldListener(textField, sudoku, row, col);
+                addTextFieldListener(textField, this.sudoku, row, col);
             }
         }
     }
@@ -72,11 +120,11 @@ public class GameController {
      * @param col The column index of the cell.
      */
     private void addTextFieldListener(TextField textField, SudokuGame sudoku, int row, int col) {
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+        ChangeListener<String> listener = (observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
                 int value = Integer.parseInt(newValue);
                 if (sudoku.verifyValue(value, row, col)) {
-                    matrix[row][col] = value;
+                    this.matrix[row][col] = value;
                     String newStyle = "-fx-background-color: #c7ffb8;";
                     textField.setStyle(textField.getStyle() + newStyle);
 
@@ -95,14 +143,34 @@ public class GameController {
                     customAlert.makeAlertError("Error", "Número no válido");
                 }
             } else {
-                matrix[row][col] = 0;
+                this.matrix[row][col] = 0;
                 String original = textField.getStyle();
-                int startIndex = 53;
-                int endIndex = 83;
-                String newStyle = original.substring(0, startIndex) + original.substring(endIndex);
-                textField.setStyle(newStyle);
+                if (original.length() < 45){
+                    textField.setStyle("");
+                } else if (original.length() > 45) {
+                    int startIndex = 53;
+                    int endIndex = original.length();
+
+                    String newStyle = original.substring(0, startIndex) + original.substring(endIndex);
+                    textField.setStyle(newStyle);
+                }
             }
-        });
+        };
+
+        listenersMap.put(textField, listener);
+        textField.textProperty().addListener(listener);
+    }
+
+    /**
+     * Removes all input listeners from the TextFields in the Sudoku grid.
+     */
+    private void removeAllListeners() {
+        for (Map.Entry<TextField, ChangeListener<String>> entry : listenersMap.entrySet()) {
+            TextField textField = entry.getKey();
+            ChangeListener<String> listener = entry.getValue();
+            textField.textProperty().removeListener(listener);
+        }
+        listenersMap.clear();
     }
 
     /**
@@ -135,7 +203,7 @@ public class GameController {
      *
      * @param textField The TextField to be locked.
      */
-    public void lockTextField(TextField textField) {
+    public void blockTextField(TextField textField) {
         textField.setEditable(false);
         String additionalStyle = "-fx-background-color: lightgray;";
         textField.setStyle(textField.getStyle() + additionalStyle);
@@ -145,9 +213,7 @@ public class GameController {
      * Handles the help button logic, allowing the user to request a single help number.
      * Disables the button when no more help is available.
      */
-
     public void help (){
-        int counter = 0;
         OnActionButtonHelp.setOnMousePressed(event -> {
             ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), OnActionButtonHelp);
             scaleTransition.setFromX(1.0);
@@ -165,10 +231,7 @@ public class GameController {
             scaleTransition.play();
         });
 
-        sudoku.addHelpNumbers(1, this);
-        if(sudoku.getAids() == counter) {
-            OnActionButtonHelp.setDisable(true);
-        }
+        sudoku.addHelpNumbers(this);
     }
 
     /**

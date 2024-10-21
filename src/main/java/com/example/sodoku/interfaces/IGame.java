@@ -9,11 +9,6 @@ import com.example.sodoku.controller.GameController;
 public interface IGame {
 
     /**
-     * Initialize the matrix with help numbers.
-     */
-    void initializeMatrix();
-
-    /**
      * Verifies if the given value is valid for a specific position in the game matrix.
      *
      * @param value The value entered by the user.
@@ -25,11 +20,9 @@ public interface IGame {
 
     /**
      * Adds helper numbers to the Sudoku board, filling random empty cells.
-     *
-     * @param count The number of helper numbers to be added.
      * @param gameController The game controller that manages the Sudoku game logic.
      */
-    void addHelpNumbers(int count, GameController gameController);
+    void addHelpNumbers(GameController gameController);
 
     /**
      * Checks if the game has finished. The game is considered finished if all cells
@@ -40,16 +33,9 @@ public interface IGame {
     boolean gameFinished();
 
     /**
-     * Returns the current state of the Sudoku matrix.
+     * Returns the sudoku matrix.
      *
-     * @return A 2D array representing the Sudoku board.
+     * @return Returns the sudoku matrix.
      */
     int[][] getMatrix();
-
-    /**
-     * Gets the number of aids remaining.
-     *
-     * @return The number of aids.
-     */
-    int getAids();
 }
