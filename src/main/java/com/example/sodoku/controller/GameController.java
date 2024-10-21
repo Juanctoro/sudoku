@@ -135,7 +135,7 @@ public class GameController {
                                 node.setDisable(true);
                             }
                         }
-                        OnActionButtonPlay.setDisable(false);
+                        OnActionButtonHelp.setDisable(true);
                     }
                 } else {
                     String newStyle = "-fx-background-color: #ff9898;";

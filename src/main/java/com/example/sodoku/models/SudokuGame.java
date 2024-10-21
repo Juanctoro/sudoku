@@ -2,6 +2,7 @@ package com.example.sodoku.models;
 
 import com.example.sodoku.controller.GameController;
 import com.example.sodoku.interfaces.IGame;
+import com.example.sodoku.utils.CustomAlert;
 import javafx.scene.control.TextField;
 
 import java.util.Random;
@@ -15,6 +16,7 @@ import java.util.Random;
 public class SudokuGame implements IGame {
     private final int[][] matrix;
     private final int[][] boardFull;
+    CustomAlert alert = new CustomAlert();
 
     /**
      * Initializes the Sudoku game with an empty 6x6 matrix and sets the number of aids (help numbers) to 3.
@@ -61,21 +63,32 @@ public class SudokuGame implements IGame {
      */
     public void addHelpNumbers( GameController gameController) {
         Random randomForHelp = new Random();
-        boolean num = false;
-
-        while (!num) {
-            int row = randomForHelp.nextInt(6);
-            int col = randomForHelp.nextInt(6);
-            int valueForHelp = this.boardFull[row][col];
-
-            if (matrix[row][col] == 0) {
-                TextField textField = (TextField) gameController.getNodeByRowColumnIndex(row, col);
-                if (textField != null) {
-                    textField.setText(String.valueOf(valueForHelp));
-                    textField.setEditable(true);
+        int counter = 0;
+        for (int i = 0; i<6; i++){
+            for (int j = 0; j<6; j++){
+                if (matrix[i][j] == 0){
+                    counter++;
                 }
-                num = true;
             }
+        }
+        boolean num = false;
+        if(counter > 1) {
+            while (!num) {
+                int row = randomForHelp.nextInt(6);
+                int col = randomForHelp.nextInt(6);
+                int valueForHelp = this.boardFull[row][col];
+
+                if (matrix[row][col] == 0) {
+                    TextField textField = (TextField) gameController.getNodeByRowColumnIndex(row, col);
+                    if (textField != null) {
+                        textField.setText(String.valueOf(valueForHelp));
+                        textField.setEditable(true);
+                    }
+                    num = true;
+                }
+            }
+        } else {
+            alert.makeAlertError("Error", "No puedes usar la ayuda para ganar.");
         }
     }
 
